@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release-build:
+    name: Release build (unsigned)
+    runs-on: macos-15
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          sw_vers
+          xcodebuild -version
+          swift --version
+
+      - name: Validate property lists
+        run: |
+          plutil -lint GazeAwake/Info.plist
+          plutil -lint GazeAwake/GazeAwake.entitlements
+
+      - name: Type-check notification sample
+        run: |
+          xcrun swiftc -typecheck Samples/NotificationListener.swift \
+            -target arm64-apple-macos13.0
+
+      - name: Build Release app
+        run: |
+          xcodebuild \
+            -project GazeAwake.xcodeproj \
+            -scheme GazeAwake \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath "$RUNNER_TEMP/GazeAwakeDerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Verify agent metadata
+        run: |
+          APP="$RUNNER_TEMP/GazeAwakeDerivedData/Build/Products/Release/GazeAwake.app"
+          test "$(plutil -extract LSUIElement raw "$APP/Contents/Info.plist")" = "true"
+          test "$(plutil -extract LSMinimumSystemVersion raw "$APP/Contents/Info.plist")" = "13.0"
+          file "$APP/Contents/MacOS/GazeAwake"

@@ -1,0 +1,72 @@
+name: Bug report
+description: Report reproducible incorrect behavior or a crash
+title: "[Bug]: "
+labels: [bug, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not attach camera frames containing people unless everyone shown has consented. Never include serial numbers, hardware UUIDs, or account identifiers.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Launch a Release build
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: GazeAwake version or commit
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: Mac chip and model identifier
+      placeholder: Apple M5, Mac17,2 (omit serial number)
+    validations:
+      required: true
+  - type: input
+    id: software
+    attributes:
+      label: macOS and Xcode versions
+      placeholder: macOS 26.5.2, Xcode 26.6
+    validations:
+      required: true
+  - type: dropdown
+    id: build
+    attributes:
+      label: Build configuration
+      options:
+        - Release without debugger
+        - Release with debugger
+        - Debug
+        - Unknown
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Remove private information before pasting logs.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: I removed serial numbers, UUIDs, account names, and unintended camera imagery.
+          required: true

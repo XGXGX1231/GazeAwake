@@ -1,0 +1,50 @@
+name: Feature request
+description: Propose a focused enhancement or experiment
+title: "[Feature]: "
+labels: [enhancement, needs-triage]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: tradeoffs
+    attributes:
+      label: Privacy, power, CPU, and memory trade-offs
+      description: Explain camera, network, dependency, battery, and performance implications.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Detection heuristic
+        - Low-power mode
+        - Display power behavior
+        - Menu bar UX
+        - State integration
+        - Privacy or security
+        - Testing or benchmarks
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checklist
+      options:
+        - label: I understand GazeAwake is not precise or medical-grade eye tracking.
+          required: true
+        - label: I searched existing issues and the roadmap.
+          required: true

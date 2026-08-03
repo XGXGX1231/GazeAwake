@@ -1,0 +1,70 @@
+name: Performance report
+description: Submit reproducible CPU or memory measurements
+title: "[Performance]: "
+labels: [performance, benchmark]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report Release measurements without the debugger when possible. Do not include serial numbers, UUIDs, or account names.
+  - type: input
+    id: commit
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: input
+    id: hardware
+    attributes:
+      label: Hardware
+      placeholder: MacBook Pro Mac17,2, Apple M5, 10 cores, 16 GB
+    validations:
+      required: true
+  - type: input
+    id: software
+    attributes:
+      label: Software
+      placeholder: macOS 26.5.2, Xcode 26.6
+    validations:
+      required: true
+  - type: input
+    id: workload
+    attributes:
+      label: Workload and duration
+      placeholder: Landmarks mode, camera active, 5-minute warm-up, 5-minute sample
+    validations:
+      required: true
+  - type: input
+    id: footprint
+    attributes:
+      label: Physical footprint and peak
+      placeholder: 207 MiB active, 292 MiB peak
+    validations:
+      required: true
+  - type: input
+    id: rss
+    attributes:
+      label: RSS
+      placeholder: 104 MiB
+  - type: input
+    id: cpu
+    attributes:
+      label: CPU measurement
+      placeholder: 21–27% short sample or 18% 5-minute average
+    validations:
+      required: true
+  - type: textarea
+    id: method
+    attributes:
+      label: Commands and methodology
+      render: shell
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacy checklist
+      options:
+        - label: I removed serial numbers, hardware UUIDs, account names, and camera imagery.
+          required: true

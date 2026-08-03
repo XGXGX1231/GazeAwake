@@ -1,0 +1,135 @@
+# GazeAwake
+
+**一个隐私优先、完全使用原生 Swift 系统框架实现的 macOS 注视感知与显示器唤醒实验。**
+
+[English](README.md) · [架构](docs/ARCHITECTURE.md) · [基准测试](docs/BENCHMARKS.md) · [隐私](docs/PRIVACY.md) · [路线图](docs/ROADMAP.md)
+
+> [!WARNING]
+> GazeAwake 当前为 **v0.1 Experimental / Proof of Concept**。它不是精确眼动仪、专业测量工具、医疗设备或无障碍认证产品。当前 Vision landmarks 模式资源开销较大，**不满足** 20 MB 内存与 5% CPU 的目标。
+
+## 功能
+
+GazeAwake 是一个没有 Dock 图标和主窗口的菜单栏后台应用，使用摄像头粗略估计用户是否正在注视屏幕，并完成以下闭环：
+
+1. 在本机判断粗粒度注意力状态；
+2. 用户重新注视时唤醒因空闲而熄灭的显示器；
+3. 持续注视期间保持亮屏；
+4. 移开视线、暂停或退出时释放电源 assertion，恢复正常节能；
+5. 通过回调和通知向其他 macOS 应用发布状态。
+
+仅使用：
+
+- **AVFoundation**：低分辨率摄像头采集
+- **Vision**：人脸关键点与头部姿态
+- **IOKit**：显示器唤醒和防止空闲熄屏
+- **AppKit**：菜单栏 Agent
+
+项目没有第三方模型或依赖，不使用 Python、OpenCV 或网络服务。摄像头画面不会写入磁盘或上传。
+
+## 检测逻辑
+
+当前实现属于启发式注意力判断，不是精确眼动追踪：
+
+- 摄像头 12 fps，优先使用 320×240，其次 352×288、640×480；
+- 每 3 帧执行一次 `VNDetectFaceLandmarksRequest`，约 4 次推理/秒；
+- 选择最大人脸并排除过小人脸；
+- 根据 yaw、roll、pitch 排除明显转头；
+- 有瞳孔关键点时，判断左右瞳孔是否处于眼睛中央区域；
+- 没有瞳孔关键点时，退化为“检测到人脸且脸部大致朝向屏幕”；
+- 连续 2 个正样本确认注视，连续 3 个负样本确认离开。
+
+精确阈值和数据流参见[架构说明](docs/ARCHITECTURE.md)。
+
+## 唤醒边界
+
+状态切换为注视时，应用调用 `IOPMAssertionDeclareUserActivity` 点亮显示器，并在持续注视期间持有 `kIOPMAssertionTypePreventUserIdleDisplaySleep`。移开视线、暂停、关闭唤醒选项或退出时立即释放。
+
+它只能唤醒因空闲显示器休眠而关闭的屏幕，不能：
+
+- 从整机深度睡眠中唤醒 Mac；
+- 在摄像头被系统挂起时继续检测；
+- 从合盖睡眠中唤醒；
+- 绕过锁屏、密码或 Touch ID。
+
+## 环境
+
+- macOS 13 Ventura 或更高
+- Xcode 15 或更高
+- Swift 5.9 或更高
+- Mac 内置或兼容外接摄像头
+
+## 构建运行
+
+1. 在 Xcode 中打开 `GazeAwake.xcodeproj`；
+2. 选择 `GazeAwake` scheme 和 **My Mac**；
+3. 如有需要，选择自己的签名 Team；
+4. 运行并允许摄像头权限；
+5. 通过菜单栏眼睛图标暂停、继续、切换唤醒或退出。
+
+命令行 Release 构建：
+
+```bash
+./Scripts/build-release.sh
+```
+
+## 快速测试唤醒
+
+1. 移开视线，等待菜单显示未注视；
+2. 保持移开视线，在终端执行 `pmset displaysleepnow`；
+3. 再看向摄像头；
+4. 正样本防抖完成后，通常约 0.5 秒点亮显示器。
+
+## 状态接口
+
+- 进程内回调：`onStateChanged: (Bool) -> Void`
+- 本地通知：`GazeAwakeStateDidChange`
+- 跨进程通知：`net.xgxgx.GazeAwake.stateDidChange`
+- Payload：`["isLookingAtScreen": Bool]`
+
+监听示例：
+
+```bash
+swift Samples/NotificationListener.swift
+```
+
+## 现阶段实测性能
+
+Apple M5 MacBook Pro、Vision 预热后的结果：
+
+| 指标 | 结果 |
+|---|---:|
+| 活跃 physical footprint | 约 207 MiB / 217 MB |
+| 峰值 physical footprint | 约 292 MiB / 306 MB |
+| Vision neural peak | 约 126 MiB / 132 MB |
+| `ps` RSS | 约 104 MiB / 107 MB |
+| 短时 CPU | 约 21–27% |
+
+未进入摄像头和 Vision 工作态时观察到的 11–12 MB 不能代表真实检测。主要开销来自 Vision neural/landmarks 资源，而不是应用缓存视频帧。完整测试信息参见[基准测试](docs/BENCHMARKS.md)。
+
+## 隐私
+
+- 帧只在内存中同步处理；
+- 应用不维护视频帧缓存；
+- 不保存、不上传、不记录摄像头画面；
+- 没有分析、遥测或网络服务；
+- 检测运行期间摄像头持续启用，因此 macOS 摄像头指示灯会亮。
+
+详见[隐私模型](docs/PRIVACY.md)。
+
+## 已知限制
+
+- 粗粒度注意力估计，不是精确眼动追踪；
+- 瞳孔检测失败时会退化为脸部朝向判断，可能产生误判；
+- 眼镜反光、逆光、侧脸和摄像头位置会影响结果；
+- 当前 landmarks 模式内存和 CPU 开销高；
+- 整机或摄像头挂起后无法工作；
+- 只能点亮屏幕，不能解锁；
+- v0.1 没有个人校准和灵敏度配置。
+
+## 路线图
+
+后续计划包括低功耗人脸存在模式、灵敏度选项、登录时启动、单元测试、截图/演示 GIF，以及更多 Mac 型号的长时间基准测试。详见[路线图](docs/ROADMAP.md)。
+
+## 许可证
+
+项目采用 [MIT License](LICENSE)。
