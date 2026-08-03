@@ -49,6 +49,46 @@
     }
   }
   </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "GazeAwake 与 iPhone/iPad 的注视感知完全一样吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不一样。GazeAwake 是独立开源实验，不使用 Face ID 或 TrueDepth，也不代表 Apple 官方功能。它只近似实现与显示器唤醒和保持亮屏有关的交互闭环。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "GazeAwake 会保存或上传 MacBook 摄像头画面吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不会。画面只在内存中即时处理，不保存、不上传，也没有遥测或网络分析服务。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "MacBook 合盖或整机睡眠后还能通过注视唤醒吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "不能。摄像头在这些状态下无法继续检测。GazeAwake 仅针对因空闲显示器休眠而关闭的屏幕，而且不会绕过锁屏、密码或 Touch ID。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "哪些 Mac 可以安装 GazeAwake？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "需要 macOS 13 Ventura 或更高版本，以及 MacBook 内置摄像头或兼容的外接 Mac 摄像头。Universal DMG 同时支持 Apple Silicon 和 Intel。"
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     :root {
       color-scheme: dark;
