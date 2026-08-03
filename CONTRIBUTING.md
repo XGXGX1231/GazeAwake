@@ -7,6 +7,7 @@ Thank you for helping improve this experimental project.
 - Keep all camera processing local and transparent.
 - Do not add telemetry, uploads, hidden recording, or network dependencies.
 - Do not describe GazeAwake as precise, professional, medical, or accessibility-certified eye tracking.
+- Treat iPhone/iPad attention awareness as product motivation only; never imply technical parity with Face ID/TrueDepth or affiliation with Apple.
 - Preserve honest benchmark reporting, including regressions.
 - Prefer Apple system frameworks and avoid third-party dependencies unless a proposal clearly justifies the privacy, binary-size, and maintenance trade-offs.
 

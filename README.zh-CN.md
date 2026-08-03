@@ -1,15 +1,27 @@
-# GazeAwake
+# GazeAwake — MacBook 注视感知
 
-**一个隐私优先、完全使用原生 Swift 系统框架实现的 macOS 注视感知与显示器唤醒实验。**
+**一个面向 MacBook 的隐私优先实验：只使用原生 Swift 系统框架，补上用户熟悉的注视感知显示体验。**
 
 [English](README.md) · [架构](docs/ARCHITECTURE.md) · [基准测试](docs/BENCHMARKS.md) · [隐私](docs/PRIVACY.md) · [路线图](docs/ROADMAP.md)
 
 > [!WARNING]
 > GazeAwake 当前为 **v0.1 Experimental / Proof of Concept**。它不是精确眼动仪、专业测量工具、医疗设备或无障碍认证产品。当前 Vision landmarks 模式资源开销较大，**不满足** 20 MB 内存与 5% CPU 的目标。
 
+## 为什么要做 GazeAwake
+
+长期使用支持 Face ID 的 iPhone 或 iPad 后，一些用户会逐渐习惯设备对“自己是否仍在看屏幕”作出反应。当他们回到 MacBook 工作时，如果缺少同类的注视—显示器联动，体验可能会产生明显断层：用户会下意识期待自己重新看向电脑时屏幕能够响应、阅读期间不要无谓熄屏、移开视线后再恢复正常节能。
+
+**GazeAwake 想在 MacBook 上探索并补足这种交互连续性。** 它通过 Mac 摄像头近似实现其中一个明确而有限的闭环：
+
+- 重新看向 MacBook 时，唤醒因空闲而熄灭的显示器；
+- 持续注视时，避免显示器因空闲计时而意外熄灭；
+- 移开视线后，把显示器休眠控制权交还给 macOS 的正常节能机制。
+
+GazeAwake 是独立开源实验，不是 Apple 官方功能，也不是 Face ID 或 TrueDepth 注视感知的 Mac 版实现。它不会复刻 iPhone/iPad 上所有“注视感知功能”；普通摄像头启发式判断的精度更低，现阶段资源开销也明显更高。这里强调的是**跨设备交互习惯与产品动机**，不是技术能力等同。
+
 ## 功能
 
-GazeAwake 是一个没有 Dock 图标和主窗口的菜单栏后台应用，使用摄像头粗略估计用户是否正在注视屏幕，并完成以下闭环：
+GazeAwake 是一个主要面向 MacBook、没有 Dock 图标和主窗口的菜单栏后台应用，使用摄像头粗略估计用户是否正在注视屏幕，并完成以下闭环：
 
 1. 在本机判断粗粒度注意力状态；
 2. 用户重新注视时唤醒因空闲而熄灭的显示器；
@@ -56,7 +68,7 @@ GazeAwake 是一个没有 Dock 图标和主窗口的菜单栏后台应用，使�
 - macOS 13 Ventura 或更高
 - Xcode 15 或更高
 - Swift 5.9 或更高
-- Mac 内置或兼容外接摄像头
+- MacBook 内置摄像头或兼容的 Mac 外接摄像头
 
 ## 构建运行
 
@@ -133,3 +145,5 @@ Apple M5 MacBook Pro、Vision 预热后的结果：
 ## 许可证
 
 项目采用 [MIT License](LICENSE)。
+
+Apple、iPhone、iPad、MacBook、Face ID 和 TrueDepth 是 Apple Inc. 的商标。GazeAwake 是独立项目，与 Apple 无隶属或官方认可关系。

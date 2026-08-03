@@ -32,9 +32,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func buildStatusItem() {
         statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         if let button = statusItem.button {
-            button.image = NSImage(systemSymbolName: "eye", accessibilityDescription: "GazeAwake")
+            button.image = NSImage(systemSymbolName: "eye", accessibilityDescription: "GazeAwake MacBook 注视感知")
             button.image?.isTemplate = true
-            button.toolTip = "GazeAwake"
+            button.toolTip = "GazeAwake · MacBook 注视感知"
         }
 
         statusMenu = NSMenu()

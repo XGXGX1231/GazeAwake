@@ -1,6 +1,6 @@
-# GazeAwake
+# GazeAwake — Gaze Awareness for MacBook
 
-**Experimental, privacy-first gaze-aware display wake for macOS, built entirely with native Swift frameworks.**
+**A privacy-first experiment that brings a familiar attention-aware display experience to MacBook using only native Swift frameworks.**
 
 [![Build](https://github.com/XGXGX1231/GazeAwake/actions/workflows/build.yml/badge.svg)](https://github.com/XGXGX1231/GazeAwake/actions/workflows/build.yml)
 [![macOS 13+](https://img.shields.io/badge/macOS-13%2B-black?logo=apple)](https://github.com/XGXGX1231/GazeAwake)
@@ -12,9 +12,21 @@
 > [!WARNING]
 > GazeAwake is a **v0.1 proof of concept**. It is not an accurate eye tracker, accessibility device, professional measurement tool, or medical product. The current Vision-landmarks mode is resource-intensive and does **not** meet a 20 MB / 5% CPU target.
 
+## Why GazeAwake exists
+
+People who use attention-aware behavior on compatible Face ID-equipped iPhone and iPad devices can become accustomed to the display responding to their attention. After moving back to a MacBook, the absence of the same gaze-to-display interaction in their workflow can feel surprisingly disruptive: they may still expect the screen to recognize that they have returned, stay awake while they are reading, and resume normal power saving when they look away.
+
+**GazeAwake explores that missing continuity on MacBook.** It uses the Mac camera to approximate one narrow part of that familiar experience:
+
+- look back at the MacBook to wake an idle-sleeping display;
+- keep looking to prevent unnecessary idle display sleep;
+- look away to return control to normal macOS energy-saving behavior.
+
+This is an independent open-source experiment, not an Apple feature or an implementation of Face ID/TrueDepth attention sensing. It does not attempt to reproduce every Attention Aware feature on iPhone or iPad. Its webcam-based heuristic is less precise and currently much more resource-intensive; the comparison describes the **interaction motivation**, not technical equivalence.
+
 ## What it does
 
-GazeAwake is a menu bar agent with no Dock icon and no main window. It uses the camera to estimate whether the user is looking toward the screen, then closes the loop:
+GazeAwake is a MacBook-focused menu bar agent with no Dock icon and no main window. It uses the camera to estimate whether the user is looking toward the screen, then closes the loop:
 
 1. Detect coarse attention locally.
 2. Wake an idle-sleeping display when attention returns.
@@ -61,7 +73,7 @@ GazeAwake can wake a display that turned off because of idle display sleep. It *
 - macOS 13 Ventura or later
 - Xcode 15 or later
 - Swift 5.9 or later
-- A Mac camera or compatible external camera
+- A MacBook camera or compatible external Mac camera
 
 The project has no package-manager dependencies.
 
@@ -186,3 +198,5 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Please re
 ## License
 
 GazeAwake is available under the [MIT License](LICENSE).
+
+Apple, iPhone, iPad, MacBook, Face ID, and TrueDepth are trademarks of Apple Inc. GazeAwake is an independent project and is not affiliated with or endorsed by Apple.

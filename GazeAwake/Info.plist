@@ -25,7 +25,7 @@
     <key>LSUIElement</key>
     <true/>
     <key>NSCameraUsageDescription</key>
-    <string>GazeAwake 使用摄像头判断您是否正在注视屏幕；视频帧只在内存中即时处理，不会保存。</string>
+    <string>GazeAwake 使用 Mac 摄像头提供本地注视感知，判断您是否正在看屏幕；视频帧只在内存中即时处理，不会保存或上传。</string>
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
 </dict>

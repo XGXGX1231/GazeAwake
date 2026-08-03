@@ -38,4 +38,5 @@ GazeAwake is experimental. Roadmap items are research directions, not commitment
 - Remote video processing
 - Password, lock-screen, or Touch ID bypass
 - Waking a closed-lid or fully sleeping Mac through camera analysis
+- Reproducing Face ID/TrueDepth or claiming parity with Apple's complete Attention Aware feature set
 - Claiming universal memory or CPU limits that cannot be measured and enforced
