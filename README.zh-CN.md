@@ -70,6 +70,12 @@ GazeAwake 是一个主要面向 MacBook、没有 Dock 图标和主窗口的菜�
 - Swift 5.9 或更高
 - MacBook 内置摄像头或兼容的 Mac 外接摄像头
 
+## 下载与安装
+
+从 [v0.1.0 Release](https://github.com/XGXGX1231/GazeAwake/releases/tag/v0.1.0) 下载 `GazeAwake-v0.1.0-macOS-universal.dmg`，打开后把 `GazeAwake.app` 拖到 **Applications（应用程序）**。该 Universal 应用同时支持 Apple Silicon 和 Intel Mac。
+
+当前实验版 DMG 使用 ad-hoc 签名，且**尚未经过 Apple 公证**，因为项目目前没有 Developer ID 证书。macOS 首次启动时可能阻止运行：先尝试打开一次，然后前往 **系统设置 → 隐私与安全性 → 安全性 → 仍要打开**，确认启动并允许摄像头访问。请只安装从项目官方 GitHub Release 页面下载的 DMG。
+
 ## 构建运行
 
 1. 在 Xcode 中打开 `GazeAwake.xcodeproj`；

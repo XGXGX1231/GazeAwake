@@ -77,6 +77,12 @@ GazeAwake can wake a display that turned off because of idle display sleep. It *
 
 The project has no package-manager dependencies.
 
+## Download and install
+
+Download `GazeAwake-v0.1.0-macOS-universal.dmg` from the [v0.1.0 Release](https://github.com/XGXGX1231/GazeAwake/releases/tag/v0.1.0), open it, and drag `GazeAwake.app` to **Applications**. The Universal app supports both Apple Silicon and Intel Macs.
+
+The current experimental DMG is ad-hoc signed and **not Apple-notarized** because the project does not yet have a Developer ID certificate. macOS may block its first launch. Try opening GazeAwake once, then go to **System Settings → Privacy & Security → Security → Open Anyway**, confirm the launch, and approve camera access. Only install a DMG downloaded from the official GitHub Release page.
+
 ## Build and run
 
 1. Open `GazeAwake.xcodeproj` in Xcode.

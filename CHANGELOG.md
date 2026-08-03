@@ -9,6 +9,11 @@ All notable changes to GazeAwake are documented here. The project follows semant
 - Reframed the project as "Gaze Awareness for MacBook," focused on interaction continuity for users accustomed to attention-aware behavior on compatible iPhone and iPad devices.
 - Clarified that this is an independent webcam-based experiment, not an Apple feature or a Face ID/TrueDepth-equivalent implementation.
 
+### Added
+
+- Universal Apple Silicon + Intel DMG distribution with explicit ad-hoc signing and notarization status.
+- DMG installation and first-launch Gatekeeper instructions.
+
 ### Planned
 
 - Low-power face-presence mode
