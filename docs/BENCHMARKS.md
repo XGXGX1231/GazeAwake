@@ -1,8 +1,8 @@
 # Benchmarks
 
-## Important result
+## Current observed profile
 
-The current `VNDetectFaceLandmarksRequest` mode does **not** meet the original target of less than 20 MB memory and less than 5% CPU.
+On the documented Apple M5 test machine, active `VNDetectFaceLandmarksRequest` processing measured approximately 207 MiB physical footprint, approximately 292 MiB peak physical footprint, and approximately 21–27% in short CPU samples. These are observations from one configuration, not universal limits.
 
 ## Test machine
 
@@ -96,4 +96,4 @@ Do not generalize the M5 result into a universal maximum or minimum.
 
 ## Lower-power research direction
 
-A future mode may use `AVCaptureMetadataOutput` face metadata or `VNDetectFaceRectanglesRequest`, reduce evaluation to 1–2 fps, and replace pupils with face position/orientation. That would reduce semantic accuracy to coarse presence/attention and still requires measurement on every supported baseline. A strict 20 MB guarantee is not promised.
+A future mode may use `AVCaptureMetadataOutput` face metadata or `VNDetectFaceRectanglesRequest`, reduce evaluation to 1–2 fps, and replace pupils with face position/orientation. That would reduce semantic accuracy to coarse presence/attention, and its resource profile would still need to be measured on every supported baseline.

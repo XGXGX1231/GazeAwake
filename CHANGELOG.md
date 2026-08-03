@@ -36,7 +36,7 @@ All notable changes to GazeAwake are documented here. The project follows semant
 
 ### Known limitations
 
-- Landmark mode exceeds the original 20 MB / 5% CPU goal
+- Landmark mode measured approximately 207 MiB active physical footprint, 292 MiB peak physical footprint, and 21–27% in short CPU samples on the documented Apple M5 test machine
 - Pupil-unavailable fallback uses coarse face/head orientation
 - No full-system-sleep wake or authentication bypass
 - No calibration, low-power mode, login item, or automated unit tests yet

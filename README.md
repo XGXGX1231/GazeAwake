@@ -10,7 +10,7 @@
 [简体中文](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Benchmarks](docs/BENCHMARKS.md) · [Privacy](docs/PRIVACY.md) · [Roadmap](docs/ROADMAP.md)
 
 > [!WARNING]
-> GazeAwake is a **v0.1 proof of concept**. It is not an accurate eye tracker, accessibility device, professional measurement tool, or medical product. The current Vision-landmarks mode is resource-intensive and does **not** meet a 20 MB / 5% CPU target.
+> GazeAwake is a **v0.1 proof of concept**. It is not an accurate eye tracker, accessibility device, professional measurement tool, or medical product. The current Vision-landmarks mode has significant measured memory and CPU usage; see [Benchmarks](docs/BENCHMARKS.md) for the observed values and methodology.
 
 ## Why GazeAwake exists
 
