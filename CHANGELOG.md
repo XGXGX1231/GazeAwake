@@ -13,6 +13,7 @@ All notable changes to GazeAwake are documented here. The project follows semant
 
 - Universal Apple Silicon + Intel DMG distribution with explicit ad-hoc signing and notarization status.
 - DMG installation and first-launch Gatekeeper instructions.
+- Search-optimized Chinese GitHub Pages site for the “MacBook 注视感知” use case, including structured data, sitemap, robots policy, and IndexNow verification.
 
 ### Planned
 

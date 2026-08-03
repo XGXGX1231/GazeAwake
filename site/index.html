@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MacBook 注视感知：GazeAwake 原生 macOS 开源应用</title>
+  <meta name="description" content="GazeAwake 是面向 MacBook 的本地注视感知开源应用：看向屏幕时唤醒并保持亮屏，移开视线后恢复 macOS 正常节能。原生 Swift、隐私优先、无需上传摄像头画面。">
+  <meta name="keywords" content="MacBook 注视感知,macbook注视感知,Mac 注视感知,GazeAwake,macOS,Swift,Vision,摄像头,保持亮屏,显示器唤醒">
+  <meta name="author" content="GazeAwake contributors">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="theme-color" content="#0b1020">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://xgxgx1231.github.io/GazeAwake/">
+  <link rel="license" href="https://github.com/XGXGX1231/GazeAwake/blob/main/LICENSE">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:site_name" content="GazeAwake">
+  <meta property="og:title" content="MacBook 注视感知：GazeAwake">
+  <meta property="og:description" content="为习惯 iPhone/iPad 注视感知交互的用户，在 MacBook 上探索注视—唤醒—保持亮屏—恢复节能的完整闭环。">
+  <meta property="og:url" content="https://xgxgx1231.github.io/GazeAwake/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MacBook 注视感知：GazeAwake">
+  <meta name="twitter:description" content="隐私优先、原生 Swift、完全本地运行的 MacBook 注视感知实验应用。">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "GazeAwake",
+    "alternateName": "MacBook 注视感知",
+    "description": "面向 MacBook 的本地注视感知开源应用：注视时唤醒并保持亮屏，移开视线后恢复正常节能。",
+    "url": "https://xgxgx1231.github.io/GazeAwake/",
+    "downloadUrl": "https://github.com/XGXGX1231/GazeAwake/releases/download/v0.1.0/GazeAwake-v0.1.0-macOS-universal.dmg",
+    "codeRepository": "https://github.com/XGXGX1231/GazeAwake",
+    "softwareVersion": "0.1.0",
+    "operatingSystem": "macOS 13 or later",
+    "applicationCategory": "UtilitiesApplication",
+    "applicationSubCategory": "Menu Bar Utility",
+    "isAccessibleForFree": true,
+    "license": "https://opensource.org/license/mit",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "GazeAwake contributors",
+      "url": "https://github.com/XGXGX1231/GazeAwake"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #070a12;
+      --surface: rgba(19, 27, 48, .72);
+      --surface-strong: #111a30;
+      --text: #f4f7ff;
+      --muted: #aeb8d0;
+      --line: rgba(174, 184, 208, .18);
+      --blue: #6aa8ff;
+      --cyan: #63e6d6;
+      --warning: #ffd479;
+      --max: 1080px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(64, 112, 255, .22), transparent 32rem),
+        radial-gradient(circle at 88% 15%, rgba(47, 219, 192, .12), transparent 28rem),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+    }
+    a { color: var(--blue); }
+    a:hover { color: #9cc5ff; }
+    .wrap { width: min(calc(100% - 36px), var(--max)); margin: 0 auto; }
+    header { padding: 24px 0; }
+    nav { display: flex; align-items: center; justify-content: space-between; gap: 18px; }
+    .brand { color: var(--text); font-weight: 750; text-decoration: none; letter-spacing: .01em; }
+    .nav-links { display: flex; gap: 18px; font-size: 14px; }
+    .nav-links a { color: var(--muted); text-decoration: none; }
+    .hero { padding: 84px 0 70px; text-align: center; }
+    .eyebrow { color: var(--cyan); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; font-size: 13px; }
+    h1 { margin: 14px 0 18px; font-size: clamp(42px, 8vw, 76px); line-height: 1.06; letter-spacing: -.045em; }
+    .hero p { max-width: 790px; margin: 0 auto; color: var(--muted); font-size: clamp(18px, 2.7vw, 23px); }
+    .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 32px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 22px; border-radius: 13px; font-weight: 720; text-decoration: none; border: 1px solid var(--line); }
+    .button.primary { color: #06101e; background: linear-gradient(135deg, var(--cyan), #8cb8ff); border: 0; }
+    .button.secondary { color: var(--text); background: rgba(255,255,255,.05); }
+    .note { margin: 22px auto 0; color: var(--muted); font-size: 13px; }
+    section { padding: 54px 0; }
+    h2 { margin: 0 0 18px; font-size: clamp(28px, 4vw, 42px); line-height: 1.2; letter-spacing: -.025em; }
+    h3 { margin-top: 0; line-height: 1.35; }
+    .lede { color: var(--muted); max-width: 800px; font-size: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 28px; }
+    .card { padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); backdrop-filter: blur(16px); }
+    .card p { margin-bottom: 0; color: var(--muted); }
+    .number { display: inline-grid; place-items: center; width: 34px; height: 34px; margin-bottom: 14px; color: #07101d; background: var(--cyan); border-radius: 10px; font-weight: 800; }
+    .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 28px 0 0; padding: 0; list-style: none; }
+    .flow li { padding: 22px; border-radius: 16px; background: var(--surface-strong); border: 1px solid var(--line); }
+    .privacy { display: grid; grid-template-columns: 1.15fr .85fr; align-items: start; gap: 24px; }
+    .checklist { margin: 0; padding: 22px 22px 22px 46px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); }
+    .checklist li { margin: 8px 0; }
+    .warning { padding: 20px 22px; color: #fff2cf; background: rgba(255, 198, 87, .09); border: 1px solid rgba(255, 212, 121, .28); border-radius: 15px; }
+    details { padding: 19px 0; border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font-weight: 720; font-size: 18px; }
+    details p { color: var(--muted); }
+    footer { margin-top: 40px; padding: 34px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    @media (max-width: 780px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 56px; }
+      .grid, .flow, .privacy { grid-template-columns: 1fr; }
+      section { padding: 42px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <nav aria-label="主导航">
+      <a class="brand" href="./">◉ GazeAwake</a>
+      <div class="nav-links">
+        <a href="#why">为什么</a>
+        <a href="#how">工作方式</a>
+        <a href="#privacy">隐私</a>
+        <a href="#faq">常见问题</a>
+        <a href="https://github.com/XGXGX1231/GazeAwake">GitHub</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <div class="eyebrow">Gaze Awareness on MacBook</div>
+      <h1>MacBook 注视感知</h1>
+      <p>让已经习惯 iPhone 与 iPad 注视感知交互的用户，在回到 MacBook 时，也能获得“看回来即响应、注视时保持亮屏、离开后恢复节能”的连续体验。</p>
+      <div class="actions">
+        <a class="button primary" href="https://github.com/XGXGX1231/GazeAwake/releases/download/v0.1.0/GazeAwake-v0.1.0-macOS-universal.dmg">下载 macOS DMG</a>
+        <a class="button secondary" href="https://github.com/XGXGX1231/GazeAwake">查看 GitHub 源码</a>
+      </div>
+      <div class="note">v0.1 Experimental · macOS 13+ · Apple Silicon + Intel · MIT License</div>
+    </section>
+
+    <section id="why" class="wrap">
+      <h2>为什么需要 MacBook 注视感知？</h2>
+      <p class="lede">当用户长期使用支持 Face ID 的 iPhone 或 iPad 后，会逐渐习惯屏幕根据注意力作出反应。切换回 MacBook 时，这种交互预期仍然存在。GazeAwake 不是复制 Apple 的完整功能，而是用 Mac 摄像头与系统电源 API，探索一个透明、可控制的本地近似方案。</p>
+      <div class="grid">
+        <article class="card">
+          <div class="number">1</div>
+          <h3>看回来，屏幕响应</h3>
+          <p>当检测到用户重新看向 MacBook 时，尝试唤醒因空闲显示器休眠而熄灭的屏幕。</p>
+        </article>
+        <article class="card">
+          <div class="number">2</div>
+          <h3>持续看，保持亮屏</h3>
+          <p>阅读、参考资料或观看静态内容时，只要确认仍在注视，就暂时防止空闲熄屏。</p>
+        </article>
+        <article class="card">
+          <div class="number">3</div>
+          <h3>移开后，恢复节能</h3>
+          <p>不再注视、暂停检测或退出后立即释放电源断言，把控制权交还给 macOS。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="how" class="wrap">
+      <h2>完全本地的工作方式</h2>
+      <p class="lede">GazeAwake 是无 Dock 图标、无主窗口的 macOS 菜单栏应用，只使用 AVFoundation、Vision、IOKit 与 AppKit。</p>
+      <ol class="flow">
+        <li><strong>低分辨率采集</strong><br>摄像头以 12 fps 工作，优先选择 320×240，并主动丢弃迟到帧。</li>
+        <li><strong>粗粒度注意力判断</strong><br>Vision 检测人脸关键点、头部姿态与可用的瞳孔位置，再进行状态防抖。</li>
+        <li><strong>显示器电源闭环</strong><br>IOKit 负责唤醒空闲熄灭的显示器、注视期间保持亮屏，以及离开后释放。</li>
+      </ol>
+    </section>
+
+    <section id="privacy" class="wrap privacy">
+      <div>
+        <h2>隐私优先，不保存画面</h2>
+        <p class="lede">视频帧只在内存中同步处理，用完即释放。项目不依赖第三方模型、Python、OpenCV、网络服务、分析 SDK 或遥测。</p>
+      </div>
+      <ul class="checklist">
+        <li>不录制视频或音频</li>
+        <li>不保存摄像头截图</li>
+        <li>不上传任何摄像头画面</li>
+        <li>不做人脸身份识别</li>
+        <li>源码公开，可自行检查和构建</li>
+      </ul>
+    </section>
+
+    <section class="wrap">
+      <h2>当前实验状态</h2>
+      <div class="warning">GazeAwake v0.1 是概念验证，不是精确眼动仪、医疗设备或专业测量工具。瞳孔关键点不可用时，会退化为“检测到人脸且头部大致朝向屏幕”的粗略判断。</div>
+      <div class="grid">
+        <article class="card"><h3>实测资源占用</h3><p>Apple M5 测试机上，活跃 physical footprint 约 207 MiB、峰值约 292 MiB，短时 CPU 样本约 21%–27%。</p></article>
+        <article class="card"><h3>唤醒边界</h3><p>只能唤醒因空闲显示器休眠而熄灭的屏幕，不能从整机深度睡眠或合盖睡眠中唤醒 Mac。</p></article>
+        <article class="card"><h3>安装状态</h3><p>当前 DMG 为 ad-hoc 签名且未经过 Apple 公证；首次启动可能需要在“隐私与安全性”中选择“仍要打开”。</p></article>
+      </div>
+    </section>
+
+    <section id="faq" class="wrap">
+      <h2>MacBook 注视感知常见问题</h2>
+      <details>
+        <summary>GazeAwake 与 iPhone/iPad 的注视感知完全一样吗？</summary>
+        <p>不一样。GazeAwake 是独立开源实验，不使用 Face ID 或 TrueDepth，也不代表 Apple 官方功能。它只近似实现与显示器唤醒和保持亮屏有关的交互闭环。</p>
+      </details>
+      <details>
+        <summary>会保存或上传 MacBook 摄像头画面吗？</summary>
+        <p>不会。画面只在内存中即时处理，不保存、不上传，也没有遥测或网络分析服务。检测运行时 macOS 摄像头指示灯会正常亮起。</p>
+      </details>
+      <details>
+        <summary>MacBook 合盖或整机睡眠后还能唤醒吗？</summary>
+        <p>不能。摄像头在这些状态下无法继续检测。GazeAwake 仅针对因空闲显示器休眠而关闭的屏幕，而且不会绕过锁屏、密码或 Touch ID。</p>
+      </details>
+      <details>
+        <summary>哪些 Mac 可以安装？</summary>
+        <p>需要 macOS 13 Ventura 或更高版本，以及 MacBook 内置摄像头或兼容的外接 Mac 摄像头。DMG 是 Universal 构建，同时支持 Apple Silicon 和 Intel。</p>
+      </details>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>GazeAwake · MIT License · 隐私优先的 MacBook 注视感知实验</span>
+      <span><a href="https://github.com/XGXGX1231/GazeAwake">GitHub</a> · <a href="https://github.com/XGXGX1231/GazeAwake/releases/tag/v0.1.0">Release</a> · <a href="https://github.com/XGXGX1231/GazeAwake/blob/main/docs/PRIVACY.md">隐私说明</a></span>
+    </div>
+  </footer>
+</body>
+</html>

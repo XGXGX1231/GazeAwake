@@ -7,7 +7,7 @@
 [![Swift 5.9+](https://img.shields.io/badge/Swift-5.9%2B-F05138?logo=swift&logoColor=white)](https://www.swift.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-[简体中文](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Benchmarks](docs/BENCHMARKS.md) · [Privacy](docs/PRIVACY.md) · [Roadmap](docs/ROADMAP.md)
+[MacBook 注视感知网站](https://xgxgx1231.github.io/GazeAwake/) · [简体中文](README.zh-CN.md) · [Architecture](docs/ARCHITECTURE.md) · [Benchmarks](docs/BENCHMARKS.md) · [Privacy](docs/PRIVACY.md) · [Roadmap](docs/ROADMAP.md)
 
 > [!WARNING]
 > GazeAwake is a **v0.1 proof of concept**. It is not an accurate eye tracker, accessibility device, professional measurement tool, or medical product. The current Vision-landmarks mode has significant measured memory and CPU usage; see [Benchmarks](docs/BENCHMARKS.md) for the observed values and methodology.

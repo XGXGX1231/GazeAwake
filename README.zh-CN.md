@@ -2,7 +2,7 @@
 
 **一个面向 MacBook 的隐私优先实验：只使用原生 Swift 系统框架，补上用户熟悉的注视感知显示体验。**
 
-[English](README.md) · [架构](docs/ARCHITECTURE.md) · [基准测试](docs/BENCHMARKS.md) · [隐私](docs/PRIVACY.md) · [路线图](docs/ROADMAP.md)
+[MacBook 注视感知网站](https://xgxgx1231.github.io/GazeAwake/) · [English](README.md) · [架构](docs/ARCHITECTURE.md) · [基准测试](docs/BENCHMARKS.md) · [隐私](docs/PRIVACY.md) · [路线图](docs/ROADMAP.md)
 
 > [!WARNING]
 > GazeAwake 当前为 **v0.1 Experimental / Proof of Concept**。它不是精确眼动仪、专业测量工具、医疗设备或无障碍认证产品。当前 Vision landmarks 模式具有较明显的实测内存和 CPU 开销，具体数值与测试方法参见[基准测试](docs/BENCHMARKS.md)。
